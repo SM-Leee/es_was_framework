@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="duzon-was-0.0.1-SNAPSHOT">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+        <dependent-module archiveName="es_was_framework-customize.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/es_was_framework-customize/es_was_framework-customize">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="es_was_framework-common-controller.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/es_was_framework-common-controller/es_was_framework-common-controller">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="es_was_framework-common-model.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/es_was_framework-common-model/es_was_framework-common-model">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="es_was_framework-web-app-0.0.1-SNAPSHOT.war" deploy-path="/WEB-INF/lib" handle="module:/resource/es_was_framework-web-app/es_was_framework-web-app">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="es_was_framework-common-service.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/es_was_framework-common-service/es_was_framework-common-service">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="duzon-was"/>
+        <property name="java-output-path" value="/duzon-was/target/classes"/>
+    </wb-module>
+</project-modules>

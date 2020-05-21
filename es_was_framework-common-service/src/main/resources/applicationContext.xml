@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+        http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+		
+	<aop:aspectj-autoproxy />
+	
+	<context:annotation-config />
+
+	<context:component-scan base-package="com.douzone.common.service.login, com.douzone.common.service.aspect">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />		
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Component" />	
+	</context:component-scan>
+	
+	<!-- proxy 클래스 생성 -->
+	<util:properties id="dataSourceConfig" location="file:///C:/properties/jdbc.properties"/>
+	
+	<!-- MsSql Connection Pool DataSource-->
+	<bean id="MsDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="#{dataSourceConfig['jdbc.driverClassName.ms']}" />
+		<property name="url" value="#{dataSourceConfig['jdbc.url.ms']}" />
+		<property name="username" value="#{dataSourceConfig['jdbc.username.ms']}" />
+		<property name="password" value="#{dataSourceConfig['jdbc.password.ms']}" />
+		<property name="initialSize" value="#{dataSourceConfig['jdbc.initialSize.ms']}" />
+		<property name="maxActive" value="#{dataSourceConfig['jdbc.maxActive.ms']}" />
+	</bean>
+	
+	<!-- MsSqljdbcTemplate -->
+	<bean id="MsJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="MsDataSource"/>
+	</bean>
+	
+	<!-- MyBatis SqlSessionFactoryBean --> 
+	<!-- 
+	<bean id="MsSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
+		<property name="dataSource" ref="MsDataSource" /> 
+		<property name="configLocation" value="classpath:mybatis/configuration.xml" /> 
+	</bean>
+ 	-->
+
+	<!-- MyBatis SqlSessionTemplate --> 
+	<!-- 
+	<bean id="MsSqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="MsSqlSessionFactory" />
+	</bean>
+ 	-->
+
+	<!-- Oracle Connection Pool DataSource-->
+	<!-- 
+	<bean id="OraDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="#{dataSourceConfig['jdbc.driverClassName.ora']}" />
+		<property name="url" value="#{dataSourceConfig['jdbc.url.ora']}" />
+		<property name="username" value="#{dataSourceConfig['jdbc.username.ora']}" />
+		<property name="password" value="#{dataSourceConfig['jdbc.password.ora']}" />
+		<property name="initialSize" value="#{dataSourceConfig['jdbc.initialSize.ora']}" />
+		<property name="maxActive" value="#{dataSourceConfig['jdbc.maxActive.ora']}" />
+	</bean>
+ 	 -->
+	<!-- OracleSqljdbcTemplate -->
+	<!-- 
+	<bean id="OraJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="OraDataSource"/>
+	</bean>
+	-->
+	 
+	<!-- MyBatis SqlSessionFactoryBean --> 
+	<!-- 
+	<bean id="OraSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
+		<property name="dataSource" ref="OraDataSource" /> 
+		<property name="configLocation" value="classpath:mybatis/configuration.xml" /> 
+	</bean>
+ 	-->
+	
+	<!-- MyBatis SqlSessionTemplate --> 
+	<!-- 
+	<bean id="OraSqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="OraSqlSessionFactory" />
+	</bean>
+	 -->
+
+</beans>
