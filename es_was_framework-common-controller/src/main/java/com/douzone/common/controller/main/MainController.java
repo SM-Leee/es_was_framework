@@ -37,4 +37,15 @@ public class MainController {
 		System.out.println("/duzon-was/main");
 		return "/main/maintest";
 	}
+	
+	@RequestMapping({"/html123"})
+	public String html123(Model model) {
+		
+		return "/user/html123";
+	}
+	@RequestMapping({"/html1234"})
+	public String html1234(Model model) {
+		return "/user/html1234";
+	}
+
 }
