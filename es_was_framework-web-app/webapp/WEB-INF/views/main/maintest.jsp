@@ -401,7 +401,7 @@
     	});
 		
 		$(document).on("click", ".tab-close", function(event){
-			event.preventDefault();
+			event.preventDefault(); 
 			var tab_id2 = $(this).parent().data("tab");
 			var tab_id3 = $(this).parent().prev().data("tab");
 			console.log('1',tab_id2)
