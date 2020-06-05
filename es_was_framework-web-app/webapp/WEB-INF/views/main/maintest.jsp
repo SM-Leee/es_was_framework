@@ -157,10 +157,10 @@
 	<div class = "tab-control">
 		
 		<ul class="tabs">
-			<!-- <li class="tab-link current" data-tab="tab-1">
+			 <!-- <li class="tab-link current"  data-tab="tab-1">
 				<span class='tab-name'>바보</span>
-				<i class="tab-close" data-feather='x'></i>
-			</li> -->
+				<span class="tab-close-main"><i class="tab-close" data-feather='x'></i></span>
+			</li>  -->
 		</ul>
 	</div>
 	<div class="body-frame hide">
@@ -190,14 +190,14 @@
 							'{"FG_MODULE" : "HH", "MODULE_NAME" : "기타"}' +
 						  '],' +
 						  '"menu" : [' +
-							'{"ID_NAME" : "M_HR_1", "ID_CLASS" : "M_HR_1", "CD_LOCATION" : "HR0100000000", "UP_MENU" : "HR", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_1"},' +
-							'{"ID_NAME" : "login2", "ID_CLASS" : "login2", "CD_LOCATION" : "HR0101000000", "UP_MENU" : "M_HR_1", "FG_MODULE" : "HR", "FG_TYPE" : "PAG", "NM_KR" : "로그인화면"},' +
-							'{"ID_NAME" : "M_HR_2", "ID_CLASS" : "M_HR_2", "CD_LOCATION" : "HR0102000000", "UP_MENU" : "M_HR_1", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_2"},' +
-							'{"ID_NAME" : "M_HR_3", "ID_CLASS" : "M_HR_3", "CD_LOCATION" : "HR0102010000", "UP_MENU" : "M_HR_2", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_3"},' +
-							'{"ID_NAME" : "M_HR_4", "ID_CLASS" : "M_HR_4", "CD_LOCATION" : "HR0102010100", "UP_MENU" : "M_HR_3", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_4"},' +
-						    '{"ID_NAME" : "html123", "ID_CLASS" : "html123", "CD_LOCATION" : "HR0102010101", "UP_MENU" : "M_HR_4", "FG_MODULE" : "HR", "FG_TYPE" : "PAG", "NM_KR" : "html123"},' +
-							'{"ID_NAME" : "M_HR_5", "ID_CLASS" : "M_HR_5", "CD_LOCATION" : "HR0200000000", "UP_MENU" : "HR", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_5"},' +
-							'{"ID_NAME" : "html1234", "ID_CLASS" : "html1234", "CD_LOCATION" : "HR0201000000", "UP_MENU" : "M_HR_5", "FG_MODULE" : "HR", "FG_TYPE" : "PAG", "NM_KR" : "html1234"}' +
+							'{"ID_NAME" : "M_HR_1", "UP_MENU" : "HR", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_1"},' +
+							'{"ID_NAME" : "login2", "UP_MENU" : "M_HR_1", "FG_MODULE" : "HR", "FG_TYPE" : "PAG", "NM_KR" : "로그인화면"},' +
+							'{"ID_NAME" : "M_HR_2", "UP_MENU" : "M_HR_1", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_2"},' +
+							'{"ID_NAME" : "M_HR_3", "UP_MENU" : "M_HR_2", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_3"},' +
+							'{"ID_NAME" : "M_HR_4", "UP_MENU" : "M_HR_3", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_4"},' +
+						    '{"ID_NAME" : "html123", "UP_MENU" : "M_HR_4", "FG_MODULE" : "HR", "FG_TYPE" : "PAG", "NM_KR" : "html123"},' +
+							'{"ID_NAME" : "M_HR_5", "UP_MENU" : "HR", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_5"},' +
+							'{"ID_NAME" : "html1234", "UP_MENU" : "M_HR_5", "FG_MODULE" : "HR", "FG_TYPE" : "PAG", "NM_KR" : "html1234"}' +
 						']}';
 		var module_menu_data = JSON.parse(module_menu);
 		
@@ -367,7 +367,7 @@
 	                  $(".tab-link.current").removeClass("current");
 	                  $(".tab-control .tabs").append("<li class='tab-link current' data-tab='"+id+"'>" +
 	                		  							"<span class='tab-name'>"+$a.attr("title")+"</span>" +
-	                		  							"<i class='tab-close' data-feather='x'></i>" +
+	                		  							"<span class='tab-close-main'><i class='tab-close' data-feather='x'></i></span>" +
 	                		  							
 	                		  						 "</li>");
 	                  //iframe 추가
@@ -390,36 +390,27 @@
               }
             });
         });
-		//"ul.tabs>li"
 		$(document).on("click", ".tab-name", function(){
+			console.log('1', '1212');
        		var tab_id = $(this).parent().attr("data-tab");
-			//console.log("123123", tab_id);
        		$(".tab-link.current").removeClass("current");
        		$(this).parent().addClass("current");
        		$(".iframe-control.show").removeClass("show");
        		$("#"+tab_id).addClass("show");
     	});
 		
-		$(document).on("click", ".tab-close", function(event){
-			event.preventDefault(); 
+		$(document).on("click", ".tab-close-main", function(){
 			var tab_id2 = $(this).parent().data("tab");
 			var tab_id3 = $(this).parent().prev().data("tab");
-			console.log('1',tab_id2)
-			console.log('3', tab_id3);
-			console.log('4', $(this).parent().prev());
 			
 			$('li[data-tab='+tab_id3+']').addClass("current");
 			$("#"+tab_id3).addClass("show");
-			//$(this).parent().prev().addClass("show");
-			//$("#"+tab_id3.data("tab")).addClass("show");
 			$('li[data-tab='+tab_id2+']').remove();
 			$("#"+tab_id2).remove();
 			
-			//console.log("123123", tab_id);
-			//console.log("123", $(this).parent().children);
 			$('.menu-link').removeClass("selected");
 			$('a[data-id='+tab_id3+']').addClass("selected");
-		});
+		});		
 		
 	</script>
 	
