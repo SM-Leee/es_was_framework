@@ -391,7 +391,6 @@
             });
         });
 		$(document).on("click", ".tab-name", function(){
-			console.log('1', '1212');
        		var tab_id = $(this).parent().attr("data-tab");
        		$(".tab-link.current").removeClass("current");
        		$(this).parent().addClass("current");
