@@ -175,80 +175,137 @@
 
 </head>
 <script type="text/javascript">
-		//json data
-		var module_menu = '{ "module" : [' +
-							'{"FG_MODULE" : "MA", "MODULE_NAME" : "마스터"},' +
-							'{"FG_MODULE" : "HR", "MODULE_NAME" : "인사관리"},'+
-							'{"FG_MODULE" : "CO", "MODULE_NAME" : "원가관리"},'+
-							'{"FG_MODULE" : "FI", "MODULE_NAME" : "회계관리"},'+
-							'{"FG_MODULE" : "PR", "MODULE_NAME" : "생산관리"},'+
-							'{"FG_MODULE" : "PU", "MODULE_NAME" : "구매자재관리"},'+
-							'{"FG_MODULE" : "SA", "MODULE_NAME" : "영업관리"},'+
-							'{"FG_MODULE" : "SU", "MODULE_NAME" : "외주관리"},'+
-							'{"FG_MODULE" : "TR", "MODULE_NAME" : "무역관리"},' +
-							'{"FG_MODULE" : "PM", "MODULE_NAME" : "프로젝트관리"},' +
-							'{"FG_MODULE" : "HH", "MODULE_NAME" : "기타"}' +
-						  '],' +
-						  '"menu" : [' +
-							'{"ID_NAME" : "M_HR_1", "UP_MENU" : "HR", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_1"},' +
-							'{"ID_NAME" : "login2", "UP_MENU" : "M_HR_1", "FG_MODULE" : "HR", "FG_TYPE" : "PAG", "NM_KR" : "로그인화면"},' +
-							'{"ID_NAME" : "M_HR_2", "UP_MENU" : "M_HR_1", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_2"},' +
-							'{"ID_NAME" : "M_HR_3", "UP_MENU" : "M_HR_2", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_3"},' +
-							'{"ID_NAME" : "M_HR_4", "UP_MENU" : "M_HR_3", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_4"},' +
-						    '{"ID_NAME" : "html123", "UP_MENU" : "M_HR_4", "FG_MODULE" : "HR", "FG_TYPE" : "PAG", "NM_KR" : "html123"},' +
-							'{"ID_NAME" : "M_HR_5", "UP_MENU" : "HR", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_5"},' +
-							'{"ID_NAME" : "html1234", "UP_MENU" : "M_HR_5", "FG_MODULE" : "HR", "FG_TYPE" : "PAG", "NM_KR" : "html1234"}' +
-						']}';
-		var module_menu_data = JSON.parse(module_menu);
-		
-		for(var i = 1; i <= module_menu_data.module.length; i++)
-		{
-			var feather_item;
-			switch(module_menu_data.module[i-1].FG_MODULE){
-			case "MA" :
-				feather_item = "settings";
-				break;
-			case "HR" :
-				feather_item = "user";
-				break;
-			case "CO" :
-				feather_item = "credit-card";
-				break;
-			case "FI" :
-				feather_item = "dollar-sign";
-				break;
-			case "PR" :
-				feather_item = "tool";
-				break;
-			case "PU" :
-				feather_item = "gift";
-				break;
-			case "SA" :
-				feather_item = "briefcase";
-				break;
-			case "SU" :
-				feather_item = "user-minus";
-				break;
-			case "TR" :
-				feather_item = "truck";
-				break;
-			case "PM" :
-				feather_item = "monitor";
-				break;
-			default :
-				feather_item = "clipboard";
-				break;
+		var module_menu_data;
+		$.ajax({
+			url : "module_menu",
+			type : "POST",
+			data : {cdCompany : "1000"},
+			success : function(data) {
+				alert("성공");
+				//var module_menu = JSON.parse(data);
+				//console.log(module_test);
+				module_menu_data = JSON.parse(data);
+				
+				for(var i = 1; i <= module_menu_data[0].length/* module_menu_data.module.length */; i++)
+				{
+					var feather_item;
+					switch(/* module_menu_data.module[i-1].FG_MODULE */module_menu_data[0][i-1].FG_MODULE){
+					case "MA" :
+						feather_item = "settings";
+						break;
+					case "HR" :
+						feather_item = "user";
+						break;
+					case "CO" :
+						feather_item = "credit-card";
+						break;
+					case "FI" :
+						feather_item = "dollar-sign";
+						break;
+					case "PR" :
+						feather_item = "tool";
+						break;
+					case "PU" :
+						feather_item = "gift";
+						break;
+					case "SA" :
+						feather_item = "briefcase";
+						break;
+					case "SU" :
+						feather_item = "user-minus";
+						break;
+					case "TR" :
+						feather_item = "truck";
+						break;
+					case "PM" :
+						feather_item = "monitor";
+						break;
+					default :
+						feather_item = "clipboard";
+						break;
+					}
+					
+					$(".sidebar-nav").append('<div class="sidebar-nav-item" data-module="'+/* module_menu_data.module[i-1].FG_MODULE */module_menu_data[0][i-1].FG_MODULE+'"><a href="#"'+
+												'class="sidebar-nav-link"> <span class="sidebar-nav-icon">'+
+												'<i data-feather="'+feather_item+'"></i>' +
+												'</span> <span class="sidebar-nav-name">'+ module_menu_data[0][i-1].MODULE_NAME +'</span>'+
+											 '</a></div>');
+				}
+				
+				feather.replace();
+				//module menu click
+	            $(".sidebar-nav-link").each(function () {
+	                $(this).click(function () {
+	                    $(".sidebar-nav-link").removeClass("active");                      //클릭된 부분을 상단에 정의된 CCS인 selected클래스로 적용
+	                    $(this).addClass("active");  //siblings:형제요소들,    removeClass:선택된 클래스의 특성을 없앰
+	                    $(".submenu, .submenu-title, .menu, .menus, .body-frame, .tab-control").removeClass("hide");
+	                    $(".submenu, .submenu-title, .menu, .menus, .body-frame, .tab-control").addClass("show");
+	                    //hover event 강제종료
+	                    $(".adminx-sidebar.expand-hover").addClass("hoverstop");
+	                    $(".submenu-title").text($(this).text());
+	                    
+	                    //메뉴삭제
+	                    $('.menus').empty();
+	                    var module_type = $(this).parent().data("module");
+	                    
+	                    for(var i = 0; i < module_menu_data[1].length; i++)
+	                    {
+	                    	var module_type_menu = module_menu_data[1][i].FG_MODULE;
+	                    	//첫번째의 경우 모듈의 메뉴를 생성해야되므로 생성
+	                    	if(i === 0)
+	                		{
+	                			$('.menus').append('<li class="folder"><a class="menu-link" href="#" title="'+module_type+'"><span>'+$(this).text()+'</span></a><ul data-level="'+module_type+'" style="display:none;"></ul></li>');
+	                		}
+	                    	if(module_type === module_type_menu)
+	                    	{
+		                    	var menu;
+		                    	//해당 위치를 확인해서 그 tag에 저장할 수 있도록 수정필요함
+		                    	if(module_menu_data[1][i].FG_TYPE === "MEN")
+		                    	{
+		                    		$('ul[data-level='+module_menu_data[1][i].UP_MENU+']').append('<li class="folder"><a class="menu-link" href="#" title="'+module_menu_data[1][i].NM_KR+'"><span>'+module_menu_data[1][i].NM_KR+'</span></a><ul data-level="'+module_menu_data[1][i].ID_NAME+'" style="display:none;"></ul></li>');
+		                    	}
+		                    	else
+		                    	{
+		                    		$('ul[data-level='+module_menu_data[1][i].UP_MENU+']').append('<li class="page"><a class="menu-link nav-link" data-id="'+module_menu_data[1][i].ID_NAME+'" href="#" title="'+module_menu_data[1][i].NM_KR+'"><span>'+module_menu_data[1][i].NM_KR+'</span></a></li>');
+		                    	}
+	                    	}
+	                    }
+	                    
+	                    feather.replace();
+	                    
+	                });
+	            });
+				
+			},
+			error : function(){
+				alert("실패");
 			}
+		});
+		//json data
+		/* var module_menu = '{ "module" : [' +
+								'{"FG_MODULE" : "MA", "MODULE_NAME" : "마스터"},' +
+								'{"FG_MODULE" : "HR", "MODULE_NAME" : "인사관리"},'+
+								'{"FG_MODULE" : "CO", "MODULE_NAME" : "원가관리"},'+
+								'{"FG_MODULE" : "FI", "MODULE_NAME" : "회계관리"},'+
+								'{"FG_MODULE" : "PR", "MODULE_NAME" : "생산관리"},'+
+								'{"FG_MODULE" : "PU", "MODULE_NAME" : "구매자재관리"},'+
+								'{"FG_MODULE" : "SA", "MODULE_NAME" : "영업관리"},'+
+								'{"FG_MODULE" : "SU", "MODULE_NAME" : "외주관리"},'+
+								'{"FG_MODULE" : "TR", "MODULE_NAME" : "무역관리"},' +
+								'{"FG_MODULE" : "PM", "MODULE_NAME" : "프로젝트관리"},' +
+								'{"FG_MODULE" : "HH", "MODULE_NAME" : "기타"}' +
+							  '],' +
+							  '"menu" : [' +
+								'{"ID_NAME" : "M_HR_1", "UP_MENU" : "HR", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_1"},' +
+								'{"ID_NAME" : "login2", "UP_MENU" : "M_HR_1", "FG_MODULE" : "HR", "FG_TYPE" : "PAG", "NM_KR" : "로그인화면"},' +
+								'{"ID_NAME" : "M_HR_2", "UP_MENU" : "M_HR_1", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_2"},' +
+								'{"ID_NAME" : "M_HR_3", "UP_MENU" : "M_HR_2", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_3"},' +
+								'{"ID_NAME" : "M_HR_4", "UP_MENU" : "M_HR_3", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_4"},' +
+							    '{"ID_NAME" : "html123", "UP_MENU" : "M_HR_4", "FG_MODULE" : "HR", "FG_TYPE" : "PAG", "NM_KR" : "html123"},' +
+								'{"ID_NAME" : "M_HR_5", "UP_MENU" : "HR", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_5"},' +
+								'{"ID_NAME" : "html1234", "UP_MENU" : "M_HR_5", "FG_MODULE" : "HR", "FG_TYPE" : "PAG", "NM_KR" : "html1234"}' +
+							']}'; */
 			
-			$(".sidebar-nav").append('<div class="sidebar-nav-item" data-module="'+module_menu_data.module[i-1].FG_MODULE+'"><a href="#"'+
-										'class="sidebar-nav-link"> <span class="sidebar-nav-icon">'+
-										'<i data-feather="'+feather_item+'"></i>' +
-										'</span> <span class="sidebar-nav-name">'+ module_menu_data.module[i-1].MODULE_NAME +'</span>'+
-									 '</a></div>');
-		}
-		
-		feather.replace();
-		
 		$(document).ready(function () {
 			
 			$(this).click(function(e){
@@ -263,77 +320,7 @@
 				}
 				//console.log("123123", e.target);
 			});
-			
-			//module menu click
-            $(".sidebar-nav-link").each(function () {
-                $(this).click(function () {
-                    $(".sidebar-nav-link").removeClass("active");                      //클릭된 부분을 상단에 정의된 CCS인 selected클래스로 적용
-                    $(this).addClass("active");  //siblings:형제요소들,    removeClass:선택된 클래스의 특성을 없앰
-                    $(".submenu, .submenu-title, .menu, .menus, .body-frame, .tab-control").removeClass("hide");
-                    $(".submenu, .submenu-title, .menu, .menus, .body-frame, .tab-control").addClass("show");
-                    //hover event 강제종료
-                    $(".adminx-sidebar.expand-hover").addClass("hoverstop");
-                    $(".submenu-title").text($(this).text());
-                    
-                    //메뉴삭제
-                    $('.menus').empty();
-                    var module_type = $(this).parent().data("module");
-                    
-                    for(var i = 0; i < module_menu_data.menu.length; i++)
-                    {
-                    	var module_type_menu = module_menu_data.menu[i].FG_MODULE;
-                    	//첫번째의 경우 모듈의 메뉴를 생성해야되므로 생성
-                    	if(i === 0)
-                		{
-                			$('.menus').append('<li class="folder"><a class="menu-link" href="#" title="'+module_type+'"><span>'+$(this).text()+'</span></a><ul data-level="'+module_type+'" style="display:none;"></ul></li>');
-                		}
-                    	if(module_type === module_type_menu)
-                    	{
-	                    	var menu;
-	                    	//해당 위치를 확인해서 그 tag에 저장할 수 있도록 수정필요함
-	                    	if(module_menu_data.menu[i].FG_TYPE === "MEN")
-	                    	{
-	                    		$('ul[data-level='+module_menu_data.menu[i].UP_MENU+']').append('<li class="folder"><a class="menu-link" href="#" title="'+module_menu_data.menu[i].NM_KR+'"><span>'+module_menu_data.menu[i].NM_KR+'</span></a><ul data-level="'+module_menu_data.menu[i].ID_NAME+'" style="display:none;"></ul></li>');
-	                    	}
-	                    	else
-	                    	{
-	                    		$('ul[data-level='+module_menu_data.menu[i].UP_MENU+']').append('<li class="page"><a class="menu-link nav-link" data-id="'+module_menu_data.menu[i].ID_NAME+'" href="#" title="'+module_menu_data.menu[i].NM_KR+'"><span>'+module_menu_data.menu[i].NM_KR+'</span></a></li>');
-	                    	}
-                    	}
-                    }
-                    
-                    feather.replace();
-                    
-                });
-            });
-			//submenu cancel
-            $(".submenu-cancel").each(function(){
-            	$(this).click(function(){
-            		if($(".submenu").hasClass("show") === true) {
-            			$(".submenu, .submenu-title, .menu, .menus, .body-frame, .tab-control").removeClass("show");
-                        $(".submenu, .submenu-title, .menu, .menus, .body-frame, .tab-control").addClass("hide");
-            		} else {
-            			$(".submenu, .submenu-title, .menu, .menus, .body-frame, .tab-control").removeClass("hide");
-                        $(".submenu, .submenu-title, .menu, .menus, .body-frame, .tab-control").addClass("show");
-            		}
-            	});
-            });
-            //hover event 강제 실행
-            $(".submenu").mouseover(function(){
-            	$(".adminx-sidebar.expand-hover").removeClass("hoverstop");
-            });
-            
-            $(".nav-link2").each(function(){
-         		$(this).click(function(){
-         			if($(".dropdown-menu").hasClass("show") === true){
-         				$(".dropdown-menu").removeClass("show");
-         			}else {
-         				$(".dropdown-menu").addClass("show");
-         			}
-         		});
-         	});
-            
-         	// 메뉴 트리 이벤트
+         // 메뉴 트리 이벤트
             $('.menus', self.container).on('click', '.menu-link', function(e) {
               e.preventDefault();
 
@@ -389,7 +376,35 @@
                 }
               }
             });
-        });
+			//submenu cancel
+            $(".submenu-cancel").each(function(){
+            	$(this).click(function(){
+            		if($(".submenu").hasClass("show") === true) {
+            			$(".submenu, .submenu-title, .menu, .menus, .body-frame, .tab-control").removeClass("show");
+                        $(".submenu, .submenu-title, .menu, .menus, .body-frame, .tab-control").addClass("hide");
+            		} else {
+            			$(".submenu, .submenu-title, .menu, .menus, .body-frame, .tab-control").removeClass("hide");
+                        $(".submenu, .submenu-title, .menu, .menus, .body-frame, .tab-control").addClass("show");
+            		}
+            	});
+            });
+            //hover event 강제 실행
+            $(".submenu").mouseover(function(){
+            	$(".adminx-sidebar.expand-hover").removeClass("hoverstop");
+            });
+            
+            $(".nav-link2").each(function(){
+         		$(this).click(function(){
+         			if($(".dropdown-menu").hasClass("show") === true){
+         				$(".dropdown-menu").removeClass("show");
+         			}else {
+         				$(".dropdown-menu").addClass("show");
+         			}
+         		});
+         	});
+		});    
+         
+							
 		$(document).on("click", ".tab-name", function(){
        		var tab_id = $(this).parent().attr("data-tab");
        		$(".tab-link.current").removeClass("current");

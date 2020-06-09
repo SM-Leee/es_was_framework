@@ -1,12 +1,20 @@
 package com.douzone.common.controller.main;
 
+import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.douzone.common.service.login.Menu;
 
 @Controller
 public class MainController {
+	
+	@Autowired
+	private Menu menu;
 	
 	@RequestMapping({"", "/main"})
 	public String main(Model model) {
@@ -36,6 +44,17 @@ public class MainController {
 	public String mainTest() {
 		System.out.println("/duzon-was/main");
 		return "/main/maintest";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/module_menu", method = RequestMethod.POST)
+	public String module_menu() {
+		System.out.println("11111");
+		System.out.println(menu);
+		JSONObject jo = menu.getMenu("1000");
+		System.out.println(jo);
+		System.out.println("33333");
+		return String.valueOf(jo);
 	}
 	
 	@RequestMapping({"/html123"})
