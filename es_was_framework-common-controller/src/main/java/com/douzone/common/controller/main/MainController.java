@@ -1,5 +1,8 @@
 package com.douzone.common.controller.main;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,16 +20,21 @@ public class MainController {
 	@Autowired
 	private Menu menu;
 	
-	@RequestMapping({"", "/main"})
-	public String main(Model model) {
-		System.out.println("main controller");
+	@RequestMapping({"", "/", "/main"})
+	public String main(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		
+		if((LoginUser)session.getAttribute("currentUser") != null)
+		{
+			return "/main/maintest";
+		}
+		
 		return "/login/login";
 	}
 
 	// (1) 로그인
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public void login() {
-		System.out.println("/login");
 	}
 
 	@RequestMapping(value="/login", method=RequestMethod.GET)
@@ -41,8 +49,13 @@ public class MainController {
 	}
 
 	@RequestMapping(value="/maintest", method=RequestMethod.GET)
-	public String mainTest() {
-		System.out.println("/duzon-was/main");
+	public String mainTest(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		
+		if((LoginUser)session.getAttribute("currentUser") == null)
+		{
+			return "/login/login";
+		}
 		return "/main/maintest";
 	}
 	
