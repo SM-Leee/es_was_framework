@@ -751,3 +751,15 @@ ul.tabs li.current:before {
 .iframe-control.show {
 	display : block;
 }
+#Progress_Loading {
+	width: 100%;
+    position: absolute;
+    text-align: center;
+    top: 40%;	
+}
+.opacity {
+	opacity : 0.5;
+}
+.nonopacity {
+	opacity : 1;
+}

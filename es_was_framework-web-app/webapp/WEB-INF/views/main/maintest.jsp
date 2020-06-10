@@ -20,9 +20,9 @@
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/resources/assets/css/main/maintest.css"/>">
 <script src="https://unpkg.com/feather-icons"></script>
-
+</head>
 <body>
-	<div class="header">
+	<div class="header opacity">
 			<a href="#" class="header-logo">
 				<img src= "<c:url value="/resources/assets/css/main/images/logo01.png"/>" alt="Douzone">
 			</a>
@@ -72,7 +72,7 @@
 		</div>
 	</div>
 
-	<div class="menu hide">
+	<div class="menu hide opacity">
 				 <div class="adminx-sidebar expand-hover push">
 					<div class="sidebar-nav">
 						<div class="sidebar-nav-item"><a href="#"
@@ -154,7 +154,7 @@
           	</ul>
 		</div>
 	</div>
-	<div class = "tab-control">
+	<div class = "tab-control opacity">
 		
 		<ul class="tabs">
 			 <!-- <li class="tab-link current"  data-tab="tab-1">
@@ -163,19 +163,26 @@
 			</li>  -->
 		</ul>
 	</div>
-	<div class="body-frame hide">
+	<div class="body-frame hide opacity">
 		<!-- <h3>¾È³çÇÏ¼¼¿ä</h3>	
 	 	<h3 style="text-align:right">¾È³çÇÏ¼¼¿ä</h3>	 -->
 	 	<%-- <iframe class ="iframe-control" src="${pageContext.servletContext.contextPath }/login2"></iframe> --%>
 	</div>
-	<div class="footer">
+	<div class="footer opacity">
 		Douzone FrameWork in LeeSeongMin / KangJaeSeong / LeeSoHyun
 	</div>
-	<script type="text/javascript" src= "<c:url value="/resources/assets/js/jquery/jquery-1.9.0.js"/>"></script>
+	
+	
+	<div id = "Progress_Loading">
+		<img src = "<c:url value="/resources/assets/images/loading.gif"/>"/>
+	</div>
+	
+</body>
 
-</head>
+<script type="text/javascript" src= "<c:url value="/resources/assets/js/jquery/jquery-1.9.0.js"/>"></script>
 <script type="text/javascript">
 		var module_menu_data;
+		
 		$.ajax({
 			url : "module_menu",
 			type : "POST",
@@ -275,6 +282,11 @@
 	                    
 	                });
 	            });
+				
+				//progressbar ¼û±â±â
+				$("#Progress_Loading").css("display", "none");
+				$(".header, .menu, .tab-control, .body-frame, .footer").removeClass("opacity");
+				$(".header, .menu, .tab-control, .body-frame, .footer").addClass("nonopacity");
 				
 			},
 			error : function(){
@@ -427,7 +439,5 @@
 		});		
 		
 	</script>
-	
-	
-</body>
+
 </html>

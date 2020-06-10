@@ -49,6 +49,7 @@ public class MainController {
 	@ResponseBody
 	@RequestMapping(value="/module_menu", method = RequestMethod.POST)
 	public String module_menu(String cdCompany) {
+		System.out.println(cdCompany);
 		JSONObject jo = menu.getMenu(cdCompany);
 		return String.valueOf(jo);
 	}
