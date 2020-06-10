@@ -58,9 +58,16 @@ public class MainController {
 		
 		return "/user/html123";
 	}
+	
 	@RequestMapping({"/html1234"})
 	public String html1234(Model model) {
 		return "/user/html1234";
+	}
+
+	@RequestMapping({"/P_HR_Z_LSH_GRID_TEST"})
+	public String hrmSingleGrid(Model model) {
+		System.out.println("P_HR_Z_LSH_GRID_TEST");
+		return "/user/p_hr_z_lsh_grid_test";
 	}
 
 }
