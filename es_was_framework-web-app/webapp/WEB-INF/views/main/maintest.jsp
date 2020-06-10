@@ -181,7 +181,7 @@
 			type : "POST",
 			data : {cdCompany : "1000"},
 			success : function(data) {
-				alert("성공");
+				//alert("성공");
 				//var module_menu = JSON.parse(data);
 				//console.log(module_test);
 				module_menu_data = JSON.parse(data);

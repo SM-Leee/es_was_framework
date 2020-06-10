@@ -32,7 +32,7 @@ public class Menu {
 			connection = dataSource.getConnection();
 			
 			CallableStatement callableSt = connection.prepareCall(storedProcedure);
-			callableSt.setString(1, "1000");
+			callableSt.setString(1, companyCode);
 			
 			boolean isExistResult = callableSt.execute();
 			int count = 0;
