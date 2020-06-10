@@ -156,7 +156,6 @@
 </head>
 <script type="text/javascript"></script>
 <script>
-/*
 		$(document).ready(function() {
 			$('#login_button').click(function() {
 				console.log("로그인 버튼 클릭");
@@ -180,14 +179,16 @@
 					url : "duzon-was/login",
 					data : user,
 					success : function(data) {
+						if(data.responsecode == 200) {
+							alert("성공");
+						}
 					},
 					error : function() {
-						alert("존재하지 않은 사용자 입니다.");
+						alert("실패");
 					}
 				});
 			});
 		});
-		*/
 </script>
 <body>
   <div class="body"></div>
@@ -197,7 +198,6 @@
 		</div>
 		<br>
 		<div class="login">
-			<form id="login-form" method="post" action="duzon-was/login">
 			<span>회사코드</span>
 			<input type="text" placeholder="CompanyCode" id="company_code" name="company_code"><br>
 			<span>그룹코드</span>
@@ -206,8 +206,7 @@
 			<input type="text" placeholder="UserId" id="userId" name="userId"><br>
 			<span>비밀번호</span>
 			<input type="password" placeholder="Password" id="password" name="password"><br>
-			<button type="submit" id="login_button">Login</button>
-			</form>
+			<button type="button" id="login_button">Login</button>
 		</div>
   <!-- <script src='http://codepen.io/assets/libs/fullpage/jquery.js'></script> -->
 </body>

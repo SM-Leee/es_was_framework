@@ -21,13 +21,26 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		System.out.println("[AuthLoginInterceptor 실행]");
 		String companyCode = request.getParameter("company_code");
 		String groupCode = request.getParameter("group_code");
 		String userId = request.getParameter("userId");
 		String password = request.getParameter("password");
 		
+		System.out.println("[AuthLoginInterceptor]");
+		System.out.println("Company Code: " + companyCode);
+		System.out.println("Group Code: " + groupCode);
+		System.out.println("User Id: " + userId);
+		System.out.println("Password: " + password);
+		System.out.println("=========================================================================");
+		
 		LoginUser result = loginService.getUser(companyCode, groupCode, userId, password);
+
+		System.out.println("[AuthLoginInterceptor]");
+		System.out.println("Company Code: " + companyCode);
+		System.out.println("Group Code: " + groupCode);
+		System.out.println("User Id: " + userId);
+		System.out.println("Password: " + password);
+		System.out.println("=========================================================================");
 		
 		if(result == null) {
 			response.sendRedirect(request.getContextPath() + "/");
@@ -35,9 +48,9 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
 		}
 		
 		HttpSession session = request.getSession(true);		
-		session.setAttribute("currentUser", result);
+		session.setAttribute("authuser", result);
 		
-		response.sendRedirect(request.getContextPath() + "/maintest");
+		response.sendRedirect(request.getContextPath() + "/main/maintest");
 		
 		return false;
 	}

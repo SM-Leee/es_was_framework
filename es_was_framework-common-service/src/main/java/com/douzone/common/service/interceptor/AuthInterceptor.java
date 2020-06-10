@@ -46,7 +46,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		
 		// 5. @Auth 붙어 있기 때문에 로그인 여부(인증여부)를 확인
 		HttpSession session = request.getSession();
-		LoginUser authUser = (session == null) ? null : (LoginUser)session.getAttribute("currentUser");
+		LoginUser authUser = (session == null) ? null : (LoginUser)session.getAttribute("authuser");
 		
 		
 		// 인증이 안됨
