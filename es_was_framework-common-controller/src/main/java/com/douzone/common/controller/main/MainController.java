@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.douzone.common.service.login.Menu;
+import com.douzone.common.model.user.LoginUser;
 
 @Controller
 public class MainController {
@@ -39,7 +40,6 @@ public class MainController {
 		System.out.println("duzon-was/logout");
 	}
 
-	// (1) 로그아웃
 	@RequestMapping(value="/maintest", method=RequestMethod.GET)
 	public String mainTest() {
 		System.out.println("/duzon-was/main");
@@ -48,12 +48,8 @@ public class MainController {
 	
 	@ResponseBody
 	@RequestMapping(value="/module_menu", method = RequestMethod.POST)
-	public String module_menu() {
-		System.out.println("11111");
-		System.out.println(menu);
-		JSONObject jo = menu.getMenu("1000");
-		System.out.println(jo);
-		System.out.println("33333");
+	public String module_menu(String cdCompany) {
+		JSONObject jo = menu.getMenu(cdCompany);
 		return String.valueOf(jo);
 	}
 	

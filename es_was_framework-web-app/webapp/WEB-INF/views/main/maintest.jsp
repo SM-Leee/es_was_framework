@@ -176,6 +176,7 @@
 </head>
 <script type="text/javascript">
 		var module_menu_data;
+		request.setCharacterEncoding("UTF-8");
 		$.ajax({
 			url : "module_menu",
 			type : "POST",
@@ -184,6 +185,7 @@
 				//alert("¼º°ø");
 				//var module_menu = JSON.parse(data);
 				//console.log(module_test);
+				console.log("123123", (String)request.getSession()+"");
 				module_menu_data = JSON.parse(data);
 				
 				for(var i = 1; i <= module_menu_data[0].length/* module_menu_data.module.length */; i++)
