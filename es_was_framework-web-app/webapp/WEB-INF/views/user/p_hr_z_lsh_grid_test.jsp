@@ -17,9 +17,9 @@
 <script>
 
 onload = function() {
-	//setContextPath("${pageContext.servletContext.contextPath}");
-	
-	var dataSource = []; // 미리 해놓을거면 여기에 data push 가능
+	var originDataSource = []; // 조회해왔을 때 원본데이터소스
+	var changedDataSource = []; // state가 added, modified, deleted된 row 모음
+	var dataSource = []; // grid에 바인딩될 dataSource
 
 	var grid = new wijmo.grid.FlexGrid('#grid', {
 	  	itemsSource: dataSource,
@@ -33,7 +33,6 @@ onload = function() {
     		{binding: "nm_kor", header: "이름", width: 80}
     	],
 	    selectionChanged: function (s, e) {
-	    	console.log(e);
 			var item = grid.collectionView.currentItem; // 선택한 row의 column data가져오기
 			
 			if(item != null) {
@@ -45,6 +44,15 @@ onload = function() {
 				$('#nm_duty_rank').val(item.nm_duty_rank);
 			}
 	    }
+	    /*
+	    deletedRow: function (e, s, d){
+	    	// row삭제 이벤트 발생할 때 여기 탐
+	    	console.log(e);
+	    	console.log(s);
+	    	console.log(d);
+	    	//console.log(dataSource);
+	    }
+	    */
 	});
 	grid.onSelectionChanged(null); // initialize selection display
 	
@@ -61,7 +69,9 @@ onload = function() {
 				for(var i=0; i<data[0].length; i++) {
 					data[0][i].state = "unchanged";
 				}
-				grid.itemsSource = data[0];
+				originDataSource = data[0];
+				dataSource = data[0];
+				grid.itemsSource = dataSource;
 			},
 			error: function(request, status, error){
 				console.log(request);
@@ -72,7 +82,7 @@ onload = function() {
 		
 		grid.select(0, 0, 0, 0, true);
 		grid.allowAddNew = true; // 조회 후 설정돼야함
-		grid.allowDelete = true;
+		//grid.allowDelete = true; // Delete key 이용하여 row 삭제
 	});
 	
 	$("#save").on("click", function() {
@@ -80,10 +90,18 @@ onload = function() {
 	});
 	
 	$("#delete").on("click", function() {
-		var item = wijmo.grid.FlexGrid.getControl("#grid").itemsSource[0];
+		var view = grid.collectionView;
+		var currentItem = view.currentItem;
+		console.log(view.currentItem);
+		
+		currentItem.state = "deleted";
+		changedDataSource.push(currentItem);
+		view.remove(view.currentItem);
+		
+		console.log(grid.itemsSource);	
+		console.log(changedDataSource);
 	});
 }
-
 
 </script>
 <style>
