@@ -152,6 +152,9 @@
 		::-moz-input-placeholder{
 		   color: rgba(255,255,255,0.6);
 		}
+		#login_button{
+			margin-top : 10px;
+		}
 	</style>
 <script src="<c:url value="/resources/assets/js/login/login.js"/>"></script>
 </head>
