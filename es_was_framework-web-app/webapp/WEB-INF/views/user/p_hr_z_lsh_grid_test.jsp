@@ -43,14 +43,17 @@ onload = function() {
 				$('#nm_kor').val(item.nm_kor);
 				$('#nm_duty_rank').val(item.nm_duty_rank);
 			}
+	    },
+	    cellEditEnding: function (s, e) {
+	    	// 수정 완료 후  실행되는 함수(validate edit이랑 같음)
+			var item = grid.collectionView.currentItem;
+
+			item.state = "modified";
+			changedDataSource.push(item)
 	    }
 	    /*
-	    deletedRow: function (e, s, d){
-	    	// row삭제 이벤트 발생할 때 여기 탐
-	    	console.log(e);
-	    	console.log(s);
-	    	console.log(d);
-	    	//console.log(dataSource);
+	    deletedRow: function (s, e){
+	    	// allowDelete = true 설정했을 때 row삭제 이벤트 발생 후 여기로 탄다..
 	    }
 	    */
 	});
@@ -81,26 +84,67 @@ onload = function() {
 		});
 		
 		grid.select(0, 0, 0, 0, true);
-		grid.allowAddNew = true; // 조회 후 설정돼야함
+		//grid.allowAddNew = true; // 조회 후 설정돼야함
 		//grid.allowDelete = true; // Delete key 이용하여 row 삭제
 	});
-	
-	$("#save").on("click", function() {
+
+	$("#add").on("click", function() {
+		var currentItem = grid.collectionView.currentItem;
+		var newItem = JSON.parse(JSON.stringify(currentItem)); // 현재 row clone
+
+		for(key in newItem) {
+			if(newItem[key] == "state") {
+				newItem[key] = "added";
+			} else {
+				var item = newItem[key] = "";
+			}
+		}
+		console.log(newItem);
+		
+		//changedDatasource.push(newItem); 얘 왜 is not defined뜨는거지..
+		dataSource.push(newItem);
+		
+		//grid.itemsSource = dataSource;
+		grid.collectionView.refresh();
 		console.log(grid.itemsSource);
+		//console.log(changedDatasource);
 	});
 	
 	$("#delete").on("click", function() {
-		var view = grid.collectionView;
-		var currentItem = view.currentItem;
-		console.log(view.currentItem);
-		
+		var view = grid.collectionView; // 현재 그리드
+		var currentItem = view.currentItem; // 현재 포커스되어있는 row
 		currentItem.state = "deleted";
-		changedDataSource.push(currentItem);
-		view.remove(view.currentItem);
 		
-		console.log(grid.itemsSource);	
+		changedDataSource.push(currentItem);
+		view.remove(view.currentItem); // 그리드에서 포커싱된 row 삭제
+	});
+	
+	$("#save").on("click", function() {
+		
+	});
+
+	$("#show").on("click", function() {
+		console.log(grid.itemsSource);
 		console.log(changedDataSource);
 	});
+	
+	/*
+	function controlState(item, state) {
+		if(changedDataSource.length > 0) {
+			var findedItem = null;
+			
+			for(key in changedDataSource) {
+				if(changedDataSource[key] == "state") {
+					newItem[key] = "added";
+				} else {
+					var item = newItem[key] = "";
+				}				
+			}
+		} else {
+			item.state = state;
+		}
+	}
+	*/
 }
 
 </script>
@@ -190,11 +234,10 @@ onload = function() {
 <body>
 		<div class="btnContainer">
 			<input type="button" class="button" id="search" value="조회">
-			<!-- 
 			<input type="button" class="button" id="add" value="추가">
-			 -->
 			<input type="button" class="button" id="delete" value="삭제">
 			<input type="button" class="button" id="save" value="저장">
+			<input type="button" class="button" id="show" value="변경데이터확인">
 		</div>
 		
 		<div class="container">
