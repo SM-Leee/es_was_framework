@@ -4,7 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
 
-<div class="header opacity" id="header">
+<%-- <div class="header opacity" id="header">
 	<a href="#" class="header-logo">
 		<img src= "<c:url value="/resources/assets/css/main/images/logo01.png"/>" alt="Douzone">
 	</a>
@@ -42,8 +42,8 @@
        </ul>
 	</div>
 </div>
-
-<!-- 
+ --%>
+ 
 <div class="header opacity">
 			<a href="#" class="header-logo">
 				<img src= "<c:url value="/resources/assets/css/main/images/logo01.png"/>" alt="Douzone">
@@ -93,4 +93,3 @@
         </ul>
 		</div>
 	</div>
- -->

@@ -91,6 +91,7 @@
 			font-size: 16px;
 			font-weight: 400;
 			padding: 4px;
+			margin-top: 5px;
 		}
 	
 		.login input[type=password]{
@@ -104,7 +105,7 @@
 			font-size: 16px;
 			font-weight: 400;
 			padding: 4px;
-			margin-top: 10px;
+			margin-top: 5px;
 		}
 	
 		.login input[type=button]{
@@ -203,7 +204,7 @@
 			<input type="text" placeholder="CompanyCode" id="company_code" name="company_code"><br>
 			<span>그룹코드</span>
 			<input type="text" placeholder="GroupCode" id="group_code" name="group_code"><br>
-			<span>아이디</span>
+			<span>아이디&nbsp;&nbsp;&nbsp;&nbsp;</span>
 			<input type="text" placeholder="UserId" id="userId" name="userId"><br>
 			<span>비밀번호</span>
 			<input type="password" placeholder="Password" id="password" name="password"><br>
