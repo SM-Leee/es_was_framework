@@ -38,6 +38,12 @@ public class DBHelper {
 				String url = "jdbc:sqlserver://175.206.170.131:3433;databaseName=NEOE";
 				conn = DriverManager.getConnection(url, "NEOE", "NEOE");
 			}
+			// 로컬 DB 접근
+			else if(DBCode.equals("003")) {
+				Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+				String url = "jdbc:sqlserver://127.0.0.1;databaseName=NEOE";
+				conn = DriverManager.getConnection(url, "NEOE", "NEOE");
+			}
 			this.DBCode = DBCode;
 		} catch(Exception ex) {
 			System.out.println("드라이버 로딩 실패: " + ex);

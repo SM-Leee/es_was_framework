@@ -47,15 +47,12 @@ onload = function() {
 	    cellEditEnding: function (s, e) {
 	    	// 수정 완료 후  실행되는 함수(validate edit이랑 같음)
 			var item = grid.collectionView.currentItem;
-
-			item.state = "modified";
-			changedDataSource.push(item)
+			
+	    	if(item.state != "added") {
+				item.state = "modified";	
+				changedDataSource.push(item);    		
+	    	}
 	    }
-	    /*
-	    deletedRow: function (s, e){
-	    	// allowDelete = true 설정했을 때 row삭제 이벤트 발생 후 여기로 탄다..
-	    }
-	    */
 	});
 	grid.onSelectionChanged(null); // initialize selection display
 	
@@ -74,6 +71,7 @@ onload = function() {
 				}
 				originDataSource = data[0];
 				dataSource = data[0];
+				changedDataSource = [];
 				grid.itemsSource = dataSource;
 			},
 			error: function(request, status, error){
@@ -82,40 +80,65 @@ onload = function() {
 				console.log(error);
 			}
 		});
-		
-		grid.select(0, 0, 0, 0, true);
-		//grid.allowAddNew = true; // 조회 후 설정돼야함
-		//grid.allowDelete = true; // Delete key 이용하여 row 삭제
+		grid.select(0, 0, 0, 0, true); // 첫번째 row 첫번째 col에 focus
 	});
 
 	$("#add").on("click", function() {
 		var currentItem = grid.collectionView.currentItem;
 		var newItem = JSON.parse(JSON.stringify(currentItem)); // 현재 row clone
-
+		
+		var gridColumns = getColumns(grid);
+		
 		for(key in newItem) {
-			if(newItem[key] == "state") {
+			if(gridColumns.includes(key)) { // 그리드에 그려져있는 데이터만 초기화해야함
+				newItem[key] = "";
+			}	
+			if(key == "state") {
 				newItem[key] = "added";
-			} else {
-				var item = newItem[key] = "";
 			}
 		}
-		console.log(newItem);
-		
-		//changedDatasource.push(newItem); 얘 왜 is not defined뜨는거지..
+		changedDataSource.push(newItem);
 		dataSource.push(newItem);
-		
-		//grid.itemsSource = dataSource;
 		grid.collectionView.refresh();
-		console.log(grid.itemsSource);
-		//console.log(changedDatasource);
 	});
 	
 	$("#delete").on("click", function() {
 		var view = grid.collectionView; // 현재 그리드
 		var currentItem = view.currentItem; // 현재 포커스되어있는 row
-		currentItem.state = "deleted";
 		
-		changedDataSource.push(currentItem);
+		// state가 added인 row는 db에 없으므로 화면에서만 삭제처리하면됨
+		if(currentItem.state == "added") {
+			if(changedDataSource.length > 0) {
+				// 해당 row 찾아서 changedDataSource에서 row삭제하기
+				for(var i=0; i<changedDataSource.length; i++) {
+					var matching = [];
+
+					for(key in currentItem) {
+						var currentValue = currentItem[key]; // 현재 선택된 row key의 value
+						var changedItemValue = changedDataSource[i][key];
+						
+						if(currentValue == changedItemValue) {
+							matching.push(true);
+						}
+						else{
+							matching.push(false);
+						}
+					}
+					if(!matching.includes(false)) { // false가 포함되어있다는 말은 다른 row라는 뜻
+						// changedDataSource에서 added된 row삭제
+						changedDataSource.splice(i, 1);
+						break;
+					}
+				}
+			}		
+		} else {
+			currentItem.state = "deleted";
+			
+			if(currentItem.state == "unchanged") { // 그냥 추가하면 2개이상이됨..
+				changedDataSource.push(currentItem);				
+			}			
+		}
+		
 		view.remove(view.currentItem); // 그리드에서 포커싱된 row 삭제
 	});
 	
@@ -128,23 +151,16 @@ onload = function() {
 		console.log(changedDataSource);
 	});
 	
-	/*
-	function controlState(item, state) {
-		if(changedDataSource.length > 0) {
-			var findedItem = null;
+	function getColumns(_grid) {
+		var gridColumns = [];
+		
+		for(var i=0; i<_grid.columns.length; i++) {
+			var keys = _grid.columns[i]._binding._key;
 			
-			for(key in changedDataSource) {
-				if(changedDataSource[key] == "state") {
-					newItem[key] = "added";
-				} else {
-					var item = newItem[key] = "";
-				}				
-			}
-		} else {
-			item.state = state;
+			gridColumns.push(keys);
 		}
+		return gridColumns;
 	}
-	*/
 }
 
 </script>
