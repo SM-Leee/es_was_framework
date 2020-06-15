@@ -67,30 +67,8 @@
 	<div id = "Progress_Loading">
 		<img src = "<c:url value="/resources/assets/images/loading.gif"/>"/>
 	</div>
-	 <div class = "main_popup">
-	 	<div class = "header_popup">
-	 		<div class='header-name-main'>공지사항</div>
-	 		<span class='popup-close-main'><i class='popup-close' data-feather='x-circle'></i></span>
-	 	</div>
-	 	<div class = "main_text_popup">
-	 		<div class = "main_text_part1">
-	 		
-	 		</div>
-	 		<div class = "main_text_part2">
-	 		
-	 		</div>
-	 	</div>
-	 	<div class = "footer_popup">
-	 		<div class="footer_popup_col">				
-					<a href="#" class="footer_popup_confirm footer_popup_comfirm_color"> 확인 </a>			
-			</div>
-		 	<div class = "footer_popup_close">
-		 		<input type="checkbox" name="close" value="OK"/>  하루동안 이 창을 열지 않음
-		 		<!-- <input class = "footer_popup_confirm" type="button" name="confirm" value="확인"/> -->
-		 	</div>
-		 	
-	 	</div>
-	</div>
+	
+	<c:import url="/WEB-INF/views/main/notice_popup.jsp"/>
 	
 </body>
 
@@ -167,33 +145,9 @@
 	        }
 	      }
 	    });
-	
-		$('.popup-close-main').each(function(){
-			$(this).click(function(){
-				$('.main_popup').addClass("hide2");
-		    	console.log("123123", '123123');
-			});
-		});
-		$('.footer_popup_col').each(function(){
-			$(this).click(function(){
-				if($("input:checkbox[name='close']").is(":checked")){
-					//check되었을때
-					$('.main_popup').addClass("hide2");
-				} else {
-					$('.main_popup').addClass("hide2");
-				}
-				$("input:checkbox[name='close']").attr("checked", false);
-				console.log("123", $("input:checkbox[name='close']").is(":checked"));
-			});
-		});
-		$('.empty_test').each(function(){
-			$(this).click(function(){
-				$('.main_popup').removeClass("hide2");
-				$('.main_popup').addClass("show2");
-			});
-		});
-	    
+
 	});
+	
 		//json data
 		/* var module_menu = '{ "module" : [' +
 								'{"FG_MODULE" : "MA", "MODULE_NAME" : "마스터"},' +

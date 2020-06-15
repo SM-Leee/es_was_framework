@@ -6,6 +6,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<style>
+  body {
+    background-color: white;
+  }
+</style>
 <body>
 	<h1>ooops!-${uri }</h1>
 	<p>

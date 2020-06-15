@@ -155,5 +155,64 @@ var module_menu_data;
          			}
          		});
          	});
+          //쿠키 확인 후 공지사항 띄울지 말지 선택
+    	    var Cookie1 = getCookie("main_popup_close")
+    		if(Cookie1){
+    			$('.main_popup').addClass("hide2");
+    			$('.main_popip').removeClass("show2");
+    		}
+    		
+    		$('.popup-close-main').each(function(){
+    			$(this).click(function(){
+    				$('.main_popup').addClass("hide2");
+    			});
+    		});
+    		$('.footer_popup_col').each(function(){
+    			$(this).click(function(){
+    				if($("input:checkbox[name='close']").is(":checked")){
+    					//check되었을때
+    					if(!Cookie1){
+    						setCookieAt00("main_popup_close", "done", 1)	
+    					}
+    					$('.main_popup').addClass("hide2");
+    				} else {
+    					$('.main_popup').addClass("hide2");
+    				}
+    				$("input:checkbox[name='close']").attr("checked", false);
+    			});
+    		});
+    		$('.empty_test').each(function(){
+    			$(this).click(function(){
+    				$('.main_popup').removeClass("hide2");
+    				$('.main_popup').addClass("show2");
+    			});
+    		});
 		});
+function getCookie( name ) {  
+	   var nameOfCookie = name + "=";  
+	   var x = 0;  
+	   while ( x <= document.cookie.length )  
+	   {  
+	       var y = (x+nameOfCookie.length);  
+	       if ( document.cookie.substring( x, y ) == nameOfCookie ) {  
+	           if ( (endOfCookie=document.cookie.indexOf( ";", y )) == -1 )  
+	               endOfCookie = document.cookie.length;  
+	           return unescape( document.cookie.substring( y, endOfCookie ) );  
+	       }  
+	       x = document.cookie.indexOf( " ", x ) + 1;  
+	       if ( x == 0 )  
+	           break;  
+	   }  
+	   return "";  
+	}  
+function setCookieAt00( name, value, expiredays ) {   
+ var todayDate = new Date();   
+ todayDate = new Date(parseInt(todayDate.getTime() / 86400000) * 86400000 + 54000000);  
+ if ( todayDate > new Date() )  
+ {  
+ expiredays = expiredays - 1;  
+ }  
+ todayDate.setDate( todayDate.getDate() + expiredays );   
+  document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"   
+}  
 
