@@ -1,3 +1,12 @@
+<!-- 
+	차후 개발 진행 순서
+	1. Row Number
+	2. 선택 콤보박스
+	3. page numbering
+	4. column DataMap
+	5. menu jump
+ -->
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -48,6 +57,9 @@ onload = function() {
 	    	// 수정 완료 후  실행되는 함수(validate edit이랑 같음)
 			var item = grid.collectionView.currentItem;
 			
+	    	// error발견
+	    	// 현재상황 : 한 row를 두번 이상 수정할 경우 changedDataSource에 다 담김
+	    	// 예외처리할 것..
 	    	if(item.state != "added") {
 				item.state = "modified";	
 				changedDataSource.push(item);    		
@@ -132,18 +144,56 @@ onload = function() {
 				}
 			}		
 		} else {
-			currentItem.state = "deleted";
-			
 			if(currentItem.state == "unchanged") { // 그냥 추가하면 2개이상이됨..
+				currentItem.state = "deleted";
 				changedDataSource.push(currentItem);				
 			}			
 		}
-		
 		view.remove(view.currentItem); // 그리드에서 포커싱된 row 삭제
 	});
 	
 	$("#save").on("click", function() {
+		console.log("===============save click===============");
 		
+		/********* 모듈화시키기 *********/
+		var added = [];
+		var modified = [];
+		var deleted = [];
+		
+		for(var i=0; i<changedDataSource.length; i++) {
+			var item = changedDataSource[i];
+			
+			if(item.state == "added") {
+				added.push(item);
+			} else if(item.state == "modified"){
+				modified.push(item);
+			} else if(item.state == "deleted"){
+				deleted.push(item);
+			}
+		}
+		
+		console.log(added);
+		console.log(modified);
+		console.log(deleted);
+
+		$.ajax({
+			url: "grid/save",
+			type: "POST",
+			async: false,
+			data: {
+				added: JSON.stringify(added),
+				modified: JSON.stringify(modified),
+				deleted: JSON.stringify(deleted)
+			},
+			success: function(data) {
+				console.log("here");
+			},
+			error: function(request, status, error){
+				console.log(request);
+				console.log(status);
+				console.log(error);
+			}
+		});
 	});
 
 	$("#show").on("click", function() {
@@ -151,6 +201,7 @@ onload = function() {
 		console.log(changedDataSource);
 	});
 	
+	// 그리드에 그려져있는 column만 return해줌
 	function getColumns(_grid) {
 		var gridColumns = [];
 		

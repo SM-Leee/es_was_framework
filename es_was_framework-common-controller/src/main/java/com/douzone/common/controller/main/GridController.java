@@ -24,22 +24,11 @@ public class GridController {
 		System.out.println("hi");
 		return gridService.getEmpgetEmpInfoToGrid(request);
 	}
-	
-	@ResponseBody
-	@RequestMapping(value="/dataMap", method=RequestMethod.POST)
-	public JSONObject getDataMap(HttpServletRequest request) {
-		return gridService.getDataMap(request);
-	}
 
 	@ResponseBody
-	@RequestMapping(value="/getSo", method=RequestMethod.POST)
-	public JSONObject getSo(HttpServletRequest request) {
-		return gridService.getSO(request);
-	}
-
-	@ResponseBody
-	@RequestMapping(value="/getWCode", method=RequestMethod.POST)
-	public JSONObject getWCode(HttpServletRequest request) {
-		return gridService.getWCode(request);
+	@RequestMapping(value="/save", method=RequestMethod.POST)
+	public void save(HttpServletRequest request) {
+		System.out.println("hello");
+		gridService.save(request);
 	}
 }
