@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.douzone.common.service.grid.GridDBHelper;
 import com.douzone.common.service.grid.GridService;
 
 @Controller
@@ -17,7 +18,7 @@ public class GridController {
 
 	@Autowired
 	GridService gridService;
-	
+
 	@ResponseBody
 	@RequestMapping(value="/getEmp", method=RequestMethod.POST)
 	public JSONObject getEmpInfoToGrid(HttpServletRequest request) {
