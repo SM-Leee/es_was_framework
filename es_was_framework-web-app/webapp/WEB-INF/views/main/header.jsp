@@ -74,9 +74,9 @@
                 <i class="ni" data-feather="settings"></i>
                 <span>Settings</span>
               </a>
-              <a href="#" class="dropdown-item">
+              <a href="#" class="dropdown-item empty_test" >
                 <i class="ni" data-feather="calendar"></i>
-                <span>Activity</span>
+                <span>공지사항</span>
               </a>
               
               <div class="dropdown-divider"></div>
