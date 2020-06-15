@@ -51,7 +51,7 @@
 		</div>
 	</div>
 	<!-- tab-control -->
-	<div class = "tab-control opacity">
+	<div class = "tab-control hide opacity">
 		
 		<ul class="tabs">
 
