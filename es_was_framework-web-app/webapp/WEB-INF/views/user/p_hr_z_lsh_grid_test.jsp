@@ -187,6 +187,9 @@ onload = function() {
 			},
 			success: function(data) {
 				console.log("here");
+				
+				// 로직끝났으면 초기화
+				changedDataSource = [];
 			},
 			error: function(request, status, error){
 				console.log(request);
@@ -296,6 +299,9 @@ onload = function() {
 	margin-bottom: 5px;
 	margin-right: 5px;
 	margin-left: 5px;
+}
+body{
+	background-color: #fff;
 }
 </style>
 <body>

@@ -1,9 +1,5 @@
 package com.douzone.common.service.grid;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,7 +9,6 @@ import org.json.simple.parser.*;
 import org.springframework.stereotype.Service;
 
 import com.douzone.common.model.dbhelper.DBHelper;
-
 
 @Service
 public class GridService {
@@ -39,22 +34,62 @@ public class GridService {
 	}
 	
 	public void save(HttpServletRequest request) {
-		//DBHelper dbHelper = new DBHelper("002");
-		Connection conn = null;
     	try {
+    		JSONParser jsonParse = new JSONParser();
+    		
     		String added = request.getParameter("added"); // 얘 자체가 JSONArray로 넘어옴
     		String modified = request.getParameter("modified"); // 얘 자체가 JSONArray로 넘어옴
     		String deleted = request.getParameter("deleted"); // 얘 자체가 JSONArray로 넘어옴
     		
-    		System.out.println(added);
-    		System.out.println(modified);
-    		System.out.println(deleted);
-
-    		JSONParser jsonParse = new JSONParser();
     		JSONArray addedArr = (JSONArray)jsonParse.parse(added);
+    		JSONArray modifiedArr = (JSONArray)jsonParse.parse(modified);
 
-    		String procName = "UP_HR_Z_LSH_GRID_TEST_I";
     		
+    		// Added 로직
+    		if(addedArr != null && addedArr.size() > 0) {
+        		GridDBHelper dbHelper = new GridDBHelper();
+        		String procName = "UP_HR_Z_LSH_GRID_TEST_I";
+        		
+    			for(int i=0; i<addedArr.size(); i++) {
+    				System.out.println(addedArr.get(i));
+    				JSONObject object = (JSONObject)addedArr.get(i);
+					
+    				String cd_company = object.get("cd_company").toString();
+					String no_emp = object.get("no_emp").toString();
+					String nm_kor = object.get("nm_kor").toString();
+
+					dbHelper.setParameter("cd_company", cd_company);
+					dbHelper.setParameter("no_emp", no_emp);
+					dbHelper.setParameter("nm_kor", nm_kor);
+					
+					int result = dbHelper.save(procName);
+    			}
+    		}
+    		
+    		// Updated 로직
+/*
+    		if(modifiedArr != null && modifiedArr.size() > 0) {
+        		GridDBHelper dbHelper = new GridDBHelper();
+        		String procName = "UP_HR_Z_LSH_GRID_TEST_U";
+        		
+    			for(int i=0; i<modifiedArr.size(); i++) {
+    				System.out.println(modifiedArr.get(i));
+    				JSONObject object = (JSONObject)modifiedArr.get(i);
+					
+    				String cd_company = object.get("cd_company").toString();
+					String no_emp = object.get("no_emp").toString();
+					String nm_kor = object.get("nm_kor").toString();
+					
+					dbHelper.setParameter("cd_company", cd_company);
+					dbHelper.setParameter("no_emp", no_emp);
+					dbHelper.setParameter("nm_kor", nm_kor);
+					
+					int result = dbHelper.save(procName);
+    			}
+    		}
+    		*/
+    		// 2020.06.15 오전 소스
+    		/*
     		if(addedArr != null && addedArr.size() > 0) {
     			Object[][] args = new Object[addedArr.size()][]; // save에 넘겨질 파라미터
 
@@ -66,30 +101,27 @@ public class GridService {
     			// 1. AutoCommit 해제
     			conn.setAutoCommit(false);
 
-    			
-    			//String sql = "{call " + procName + "(?, ?, ?)}";    			
-    			String sql = "";
-    			
-    			// 2. Execute a procedure create
-    			CallableStatement cstmt = conn.prepareCall(sql);
+				JSONObject object = (JSONObject)addedArr.get(0);	// jsonArray에서 item추출
+				Iterator<String> iter = object.keySet().iterator(); // KeySet가져오기
+				
+				int keySize = object.keySet().size() - 1; // 각 json마다 key 갯수 // -1 이유는 state값 때문에
 
-				for(int i=0; i<addedArr.size(); i++) {
-					JSONObject object = (JSONObject)addedArr.get(i);	// jsonArray에서 item추출
-					Iterator<String> iter = object.keySet().iterator(); // KeySet가져오기
-					
-					int keySize = object.keySet().size() - 1; // 각 json마다 key 갯수 // -1 이유는 state값 때문에
-					
-					if(sql.contentEquals("")) {
-						sql = "{call " + procName + "(";
-						for(int keyIndex=0; keyIndex<keySize; keyIndex++) {
-							if(keyIndex == keySize-1) {
-								sql += "?)}";
-							} else{
-								sql += "?, ";
-							}
-						}
+				String sql = "{call " + procName + "(";
+				for(int keyIndex=0; keyIndex<keySize; keyIndex++) {
+					if(keyIndex == keySize-1) {
+						sql += "?)}";
+					} else{
+						sql += "?, ";
 					}
-
+				}
+				
+    			// 2. Execute a procedure create
+				CallableStatement cstmt = conn.prepareCall(sql); 	
+    			 
+				for(int i=0; i<addedArr.size(); i++) {
+					object = (JSONObject)addedArr.get(i);	// jsonArray에서 item추출
+					iter = object.keySet().iterator(); // KeySet가져오기
+					
 					//Object[] obj = new Object[keySize]; // key갯수만큼 생성
 					int index = 1;
 					
@@ -112,6 +144,8 @@ public class GridService {
 				// Commit data here
 				conn.commit();
     		}
+    		*/
+    		// 2020.06.15 이전 데이터 소스
 /*
     		String procName = "UP_HR_Z_LSH_GRID_TEST_I";
 
@@ -151,20 +185,10 @@ public class GridService {
     			for(int i=0; i<arr.size(); i++) {
     			}
     		}*/
-    	} catch(SQLException se) {
-			se.printStackTrace();
-			// RollBack
-			try {
-				if(conn != null) {
-					conn.rollback();
-				}
-			} catch(SQLException se2) {
-				se2.printStackTrace();
-			}
-		} catch(Exception ex) {
+    	} catch(Exception ex) {
     		System.err.println(ex);    		
-    	} finally {
-    		//dbHelper.Terminate();
     	}
 	}
+	
+	
 }
