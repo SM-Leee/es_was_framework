@@ -39,7 +39,9 @@ onload = function() {
 	    autoGenerateColumns: false,
     	columns: [
     		{binding: "no_emp", header: "사번", width: 80},
-    		{binding: "nm_kor", header: "이름", width: 80}
+    		{binding: "nm_kor", header: "이름", width: 80},
+    		{binding: "cd_dept", header: "부서코드", width: 80},
+    		{binding: "nm_dept", header: "부서명", width: 150, isReadOnly:true}
     	],
 	    selectionChanged: function (s, e) {
 			var item = grid.collectionView.currentItem; // 선택한 row의 column data가져오기
@@ -188,10 +190,11 @@ onload = function() {
 			success: function(data) {
 				console.log("here");
 				
+				alert("저장완료되었습니다.");
 				// 로직끝났으면 초기화
 				changedDataSource = [];
 			},
-			error: function(request, status, error){
+			error: function(request, status, error) { // 이 에러는 통신에러
 				console.log(request);
 				console.log(status);
 				console.log(error);
