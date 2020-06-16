@@ -13,7 +13,7 @@ public class AuthLogoutInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		HttpSession session = request.getSession();
 		if(session != null) {
-			session.removeAttribute("userUser");
+			session.removeAttribute("currentUser");
 			session.invalidate();
 		}
 		response.sendRedirect(request.getContextPath() +  "/");

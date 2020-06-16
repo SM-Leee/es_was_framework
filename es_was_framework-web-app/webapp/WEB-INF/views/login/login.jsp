@@ -214,6 +214,5 @@
 			<button type="submit" id="login_button">Login</button>
 			</form>
 		</div>
-  <!-- <script src='http://codepen.io/assets/libs/fullpage/jquery.js'></script> -->
 </body>
 </html>
