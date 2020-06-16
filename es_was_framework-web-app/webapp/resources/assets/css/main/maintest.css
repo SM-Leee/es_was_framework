@@ -788,7 +788,7 @@ ul.tabs li.current:before {
     min-width:1000px;
 }
 .header_popup {
-	height : 30px;
+	height : 40px;
 	width:100%;
 	/* background-color : white; */
 	background-color: #058DF5;
@@ -799,7 +799,7 @@ ul.tabs li.current:before {
 	color: white;
 	/* color: #058DF5; */
     float: right;
-    margin-top: 2px;
+    margin-top: 6px;
     margin-right: 6px;
 }
 .popup-close-main:hover {
@@ -807,7 +807,7 @@ ul.tabs li.current:before {
 }
 .main_text_popup {
 	width:100%;
-	height: calc(100% - 30px - 40px);
+	height: calc(100% - 40px - 40px);
 }
 .footer_popup {
 	height : 40px;
@@ -906,7 +906,9 @@ ul.tabs li.current:before {
 .header-name-main {
 	position: absolute;
     margin-left: 20px;
-    margin-top: 2px;
+    margin-top: 6px;
     color : white;
     font-family: 'Exo', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
 }

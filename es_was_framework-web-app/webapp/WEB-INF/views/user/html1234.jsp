@@ -23,6 +23,11 @@
  	$(document).ready(function(){
  		
  		<%-- console.log(<%=name  %>); --%>
+ 		var selector = parent.document.querySelector('.menu-link.nav-link.selected');
+ 		var selector2 = parent.document.querySelector('.menu-link');
+ 		console.log("1", selector);
+ 		console.log("2", selector2);
+ 		console.log("3", $(selector).attr('title'));
  	});
  </script>
 </html>

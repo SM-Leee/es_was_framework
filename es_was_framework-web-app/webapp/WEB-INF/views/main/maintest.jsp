@@ -115,7 +115,7 @@
 	            		  						 "</li>");
 	              //iframe Ãß°¡
 	              $(".iframe-control.show").removeClass("show");
-	              $(".body-frame").append("<iframe class ='iframe-control show' id='"+id+"' frameborder=0 framespacing=0 marginheight=0 marginwidth=0 src='${pageContext.servletContext.contextPath }/"+id+"'></iframe>");
+	              $(".body-frame").append("<iframe class ='iframe-control show' id='"+id+"' data-title='"+ $a.attr("title") +"' frameborder=0 framespacing=0 marginheight=0 marginwidth=0 src='${pageContext.servletContext.contextPath }/"+id+"'></iframe>");
 	              feather.replace();
 	            //progressbar ¼û±â±â
 	  			$("#Progress_Loading").css("display", "block");

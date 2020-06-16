@@ -6,7 +6,7 @@
     
 <div class = "main_popup">
 	 	<div class = "header_popup">
-	 		<div class='header-name-main'>공지사항</div>
+	 		<div class='header-name-main'>공&nbsp;지&nbsp;사&nbsp;항</div>
 	 		<span class='popup-close-main'><i class='popup-close' data-feather='x-circle'></i></span>
 	 	</div>
 	 	<div class = "main_text_popup">
