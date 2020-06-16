@@ -61,13 +61,13 @@
 	<div class="body-frame hide opacity">
 	</div>
 	
-	
+	<!-- footer -->
 	<c:import url="/WEB-INF/views/main/footer.jsp"/>
-	
+	<!-- loading -->
 	<div id = "Progress_Loading">
 		<img src = "<c:url value="/resources/assets/images/loading.gif"/>"/>
 	</div>
-	
+	<!-- notic(공지사항) -->
 	<c:import url="/WEB-INF/views/main/notice_popup.jsp"/>
 	
 </body>
@@ -146,34 +146,7 @@
 	      }
 	    });
 
-	});
-	
-		//json data
-		/* var module_menu = '{ "module" : [' +
-								'{"FG_MODULE" : "MA", "MODULE_NAME" : "마스터"},' +
-								'{"FG_MODULE" : "HR", "MODULE_NAME" : "인사관리"},'+
-								'{"FG_MODULE" : "CO", "MODULE_NAME" : "원가관리"},'+
-								'{"FG_MODULE" : "FI", "MODULE_NAME" : "회계관리"},'+
-								'{"FG_MODULE" : "PR", "MODULE_NAME" : "생산관리"},'+
-								'{"FG_MODULE" : "PU", "MODULE_NAME" : "구매자재관리"},'+
-								'{"FG_MODULE" : "SA", "MODULE_NAME" : "영업관리"},'+
-								'{"FG_MODULE" : "SU", "MODULE_NAME" : "외주관리"},'+
-								'{"FG_MODULE" : "TR", "MODULE_NAME" : "무역관리"},' +
-								'{"FG_MODULE" : "PM", "MODULE_NAME" : "프로젝트관리"},' +
-								'{"FG_MODULE" : "HH", "MODULE_NAME" : "기타"}' +
-							  '],' +
-							  '"menu" : [' +
-								'{"ID_NAME" : "M_HR_1", "UP_MENU" : "HR", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_1"},' +
-								'{"ID_NAME" : "login2", "UP_MENU" : "M_HR_1", "FG_MODULE" : "HR", "FG_TYPE" : "PAG", "NM_KR" : "로그인화면"},' +
-								'{"ID_NAME" : "M_HR_2", "UP_MENU" : "M_HR_1", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_2"},' +
-								'{"ID_NAME" : "M_HR_3", "UP_MENU" : "M_HR_2", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_3"},' +
-								'{"ID_NAME" : "M_HR_4", "UP_MENU" : "M_HR_3", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_4"},' +
-							    '{"ID_NAME" : "html123", "UP_MENU" : "M_HR_4", "FG_MODULE" : "HR", "FG_TYPE" : "PAG", "NM_KR" : "html123"},' +
-								'{"ID_NAME" : "M_HR_5", "UP_MENU" : "HR", "FG_MODULE" : "HR", "FG_TYPE" : "MEN", "NM_KR" : "인사_5"},' +
-								'{"ID_NAME" : "html1234", "UP_MENU" : "M_HR_5", "FG_MODULE" : "HR", "FG_TYPE" : "PAG", "NM_KR" : "html1234"}' +
-							']}'; */
-			
-		    
+	}); 
          				
 		 $(document).on("click", ".tab-name", function(){
        		var tab_id = $(this).parent().attr("data-tab");
@@ -181,6 +154,10 @@
        		$(this).parent().addClass("current");
        		$(".iframe-control.show").removeClass("show");
        		$("#"+tab_id).addClass("show");
+       		
+       		$(".menu-link.nav-link.selected").removeClass("selected");
+       		$('a[data-id='+tab_id+']').addClass("selected");
+       		
     	});
 		
 		$(document).on("click", ".tab-close-main", function(){
