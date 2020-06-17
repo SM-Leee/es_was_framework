@@ -77,14 +77,14 @@ var module_menu_data;
               //메뉴삭제
               $('.menus').empty();
               var module_type = $(this).parent().data("module");
-              
+              var module_name = $(this).children()[1].innerHTML;
               for(var i = 0; i < module_menu_data[1].length; i++)
               {
               	var module_type_menu = module_menu_data[1][i].FG_MODULE;
               	//첫번째의 경우 모듈의 메뉴를 생성해야되므로 생성
               	if(i === 0)
           		{
-          			$('.menus').append('<li class="folder"><a class="menu-link" href="#" title="'+module_type+'"><span>'+$(this).text()+'</span></a><ul data-level="'+module_type+'" style="display:none;"></ul></li>');
+          			$('.menus').append('<li class="folder"><a class="menu-link" href="#" title="'+module_name+'"><span>'+$(this).text()+'</span></a><ul data-level="'+module_type+'" style="display:none;"></ul></li>');
           		}
               	if(module_type === module_type_menu)
               	{
