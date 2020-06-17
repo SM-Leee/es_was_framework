@@ -84,4 +84,10 @@ public class MainController {
 		return "/user/p_hr_z_lsh_grid_test";
 	}
 
+	@RequestMapping({"/P_HR_Z_LSH_GRID_TEST2"})
+	public String hrmSingleGrid2(Model model) {
+		System.out.println("P_HR_Z_LSH_GRID_TEST2");
+		return "/sh/p_hr_z_lsh_grid_test2";
+	}
+
 }

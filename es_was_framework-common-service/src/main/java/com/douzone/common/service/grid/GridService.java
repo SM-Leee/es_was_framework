@@ -1,5 +1,7 @@
 package com.douzone.common.service.grid;
 
+import java.sql.SQLException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
@@ -33,6 +35,9 @@ public class GridService {
 	}
 	
 	public void save(HttpServletRequest request) {
+		GridDBHelper dbHelper = new GridDBHelper(dataSource);
+		dbHelper.setAutoCommit(false);
+		
     	try {
     		JSONParser jsonParse = new JSONParser();
     		
@@ -44,12 +49,11 @@ public class GridService {
     		JSONArray modifiedArr = (JSONArray)jsonParse.parse(modified);
     		JSONArray deletedArr = (JSONArray)jsonParse.parse(deleted);
 
-    		
     		// Added 로직
     		if(addedArr != null && addedArr.size() > 0) {
     			System.out.println("start added logic...");
-    			
-    			GridDBHelper dbHelper = new GridDBHelper(dataSource);
+
+    			//GridDBHelper dbHelper = new GridDBHelper(dataSource);
         		String procName = "UP_HR_Z_LSH_GRID_TEST_I";
         		
     			for(int i=0; i<addedArr.size(); i++) {
@@ -73,7 +77,7 @@ public class GridService {
     		if(modifiedArr != null && modifiedArr.size() > 0) {
     			System.out.println("start modified logic...");
     			
-    			GridDBHelper dbHelper = new GridDBHelper(dataSource);
+    			//GridDBHelper dbHelper = new GridDBHelper(dataSource);
         		String procName = "UP_HR_Z_LSH_GRID_TEST_U";
         		
     			for(int i=0; i<modifiedArr.size(); i++) {
@@ -95,7 +99,9 @@ public class GridService {
 
     		// Deleted 로직
     		if(deletedArr != null && deletedArr.size() > 0) {
-    			GridDBHelper dbHelper = new GridDBHelper(dataSource);
+    			System.out.println("start deleted logic...");
+    			
+    			//GridDBHelper dbHelper = new GridDBHelper(dataSource);
         		String procName = "UP_HR_Z_LSH_GRID_TEST_D";
         		
     			for(int i=0; i<deletedArr.size(); i++) {
@@ -111,7 +117,14 @@ public class GridService {
 					dbHelper.save(procName);
     			}
     		}
+    		
+    		dbHelper.commit();
     	} catch(Exception ex) {
+    		try {
+				dbHelper.rollback();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
     		System.err.println(ex);    		
     	}
 	}

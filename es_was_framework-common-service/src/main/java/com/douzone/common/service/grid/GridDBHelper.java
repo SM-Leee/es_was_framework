@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 public class GridDBHelper {
 
 	private BasicDataSource dataSource;
+	
 	String DBCode = null;
 	Connection conn = null;
 	CallableStatement cstmt = null;
@@ -33,13 +34,26 @@ public class GridDBHelper {
 	GridDBHelper(BasicDataSource dataSource) {
 		this.dataSource = dataSource;
 		
-		object = new LinkedHashMap<String, Object>();				
+		//object = new LinkedHashMap<String, Object>();				
 		try {		
 		} catch(Exception ex) {
 			System.err.println(ex);
 		}
 	}
 	
+	public void setAutoCommit(boolean defaultAutocommit) {
+		dataSource.setDefaultAutoCommit(defaultAutocommit);
+	}
+	
+	public void commit() throws SQLException {
+		dataSource.getConnection().commit();
+	}
+	
+	public void rollback() throws SQLException {
+		dataSource.getConnection().rollback();
+	}
+	
+	// search
 	public JSONObject exquteQuery(String procName, Object[] args) {
 		JSONObject jsonObject = new JSONObject();
 		
@@ -119,11 +133,12 @@ public class GridDBHelper {
 		}
 	}
 	
+	// insert, update, delete
 	public int save(String procName) {
 		this.procName = procName;
 		return excute();
 	}
-	
+		
 	private int excute() {
 		int result = 0;
 
@@ -136,17 +151,9 @@ public class GridDBHelper {
 			Connection connection = null;
 			connection = dataSource.getConnection();
 
-			/*
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			String url = "jdbc:sqlserver://175.206.170.131:3433;databaseName=NEOE";
-			conn = DriverManager.getConnection(url, "NEOE", "NEOE");	
-			// 1. AutoCommit 해제
-			conn.setAutoCommit(false);
-			
-			*/
 			String sql = "{call " + procName + "(";
 			int paramSize = object.size();		
-			for(int i=0; i<paramSize; i++) {
+			for(int i=0; i<object.size(); i++) {
 				if(i == paramSize-1) {
 					sql += "?)}";
 				} else{
@@ -168,41 +175,14 @@ public class GridDBHelper {
 				cstmt.setString(index, value);
 				index++;
 			}
-			result = cstmt.executeUpdate();
-			// Commit data here
-			//conn.commit();
-			
+			result = cstmt.executeUpdate();			
 		} catch(SQLException se) {
 			se.printStackTrace();
-			/*
-			// RollBack
-			try {
-				if(conn != null) {
-					conn.rollback();
-				}
-			} catch(SQLException se2) {
-				se2.printStackTrace();
-			}
-			*/
 		} catch(Exception ex) {
 			System.err.println(ex);
-		} finally {
-			//Terminate();
 		}
 		
+		object = null;
 		return result;
-	}
-
-	private void Terminate() {
-		try {
-			if(conn != null) {
-				conn.close();
-			}
-			if(cstmt != null) {
-				cstmt.close();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 }
