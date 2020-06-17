@@ -26,15 +26,21 @@ public class GridDBHelper {
 	private BasicDataSource dataSource;
 	
 	String DBCode = null;
-	Connection conn = null;
+	Connection connection = null;
 	CallableStatement cstmt = null;
 	Map<String, Object> object = null;
 	String procName = "";
 
 	GridDBHelper(BasicDataSource dataSource) {
-		this.dataSource = dataSource;
-		
-		//object = new LinkedHashMap<String, Object>();				
+		try {
+			this.dataSource = dataSource;
+
+			connection = dataSource.getConnection();
+			
+		} catch(Exception ex) {
+			System.err.println(ex);
+		}
+			
 		try {		
 		} catch(Exception ex) {
 			System.err.println(ex);
@@ -59,10 +65,7 @@ public class GridDBHelper {
 		
 		try {
 			if(args.length == 0) return null;
-
-			Connection connection = null;
-			connection = dataSource.getConnection();
-
+			
 			String sql = "{call " + procName + "(";
 
 			for(int i=0; i<args.length; i++) {
@@ -134,23 +137,19 @@ public class GridDBHelper {
 	}
 	
 	// insert, update, delete
-	public int save(String procName) {
+	public int save(String procName) throws SQLException {
 		this.procName = procName;
 		return excute();
 	}
 		
-	private int excute() {
+	private int excute() throws SQLException {
 		int result = 0;
 
-		try {
 			if(object == null || object.size() == 0) {
 				System.err.println("로직 실행할 데이터가 없습니다.");
 				return -1;
 			}
-
-			Connection connection = null;
-			connection = dataSource.getConnection();
-
+			
 			String sql = "{call " + procName + "(";
 			int paramSize = object.size();		
 			for(int i=0; i<object.size(); i++) {
@@ -163,24 +162,17 @@ public class GridDBHelper {
 			
 			// 2. Execute a procedure create
 			CallableStatement cstmt = connection.prepareCall(sql); 
-			
+
 			Iterator<String> iter = object.keySet().iterator();
 			int index = 1;
 			while(iter.hasNext()) {
 				String param = iter.next();
-				System.out.println(param);
 				String value = object.get(param).toString();
-				System.out.println(value);
 				
 				cstmt.setString(index, value);
 				index++;
 			}
-			result = cstmt.executeUpdate();			
-		} catch(SQLException se) {
-			se.printStackTrace();
-		} catch(Exception ex) {
-			System.err.println(ex);
-		}
+			result = cstmt.executeUpdate();	
 		
 		object = null;
 		return result;

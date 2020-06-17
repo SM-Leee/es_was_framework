@@ -34,9 +34,11 @@ public class GridService {
 		return result;
 	}
 	
-	public void save(HttpServletRequest request) {
+	public int save(HttpServletRequest request) {
 		GridDBHelper dbHelper = new GridDBHelper(dataSource);
 		dbHelper.setAutoCommit(false);
+		
+		int result = -1;
 		
     	try {
     		JSONParser jsonParse = new JSONParser();
@@ -69,7 +71,8 @@ public class GridService {
 					dbHelper.setParameter("nm_kor", nm_kor);
 					dbHelper.setParameter("cd_dept", cd_dept);
 					
-					dbHelper.save(procName);
+					result = dbHelper.save(procName);
+					System.out.println("added logic : " + result);
     			}
     		}
 
@@ -93,7 +96,8 @@ public class GridService {
 					dbHelper.setParameter("nm_kor", nm_kor);
 					dbHelper.setParameter("cd_dept", cd_dept);
 					
-					dbHelper.save(procName);
+					result = dbHelper.save(procName);
+					System.out.println("updated logic : " + result);
     			}
     		}
 
@@ -114,7 +118,8 @@ public class GridService {
 					dbHelper.setParameter("cd_company", cd_company);
 					dbHelper.setParameter("no_emp", no_emp);
 					
-					dbHelper.save(procName);
+					result = dbHelper.save(procName);
+					System.out.println("deleted logic : " + result);
     			}
     		}
     		
@@ -125,7 +130,10 @@ public class GridService {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+    		result = -1;
     		System.err.println(ex);    		
     	}
+    	
+    	return result;
 	}
 }

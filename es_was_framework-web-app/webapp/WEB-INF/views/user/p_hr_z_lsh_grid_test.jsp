@@ -226,7 +226,7 @@ onload = function() {
 				deleted: JSON.stringify(deleted)
 			},
 			success: function(data) {
-				console.log(data);
+				console.log(data); // 넘어오는 data값에 따라서 저장완료 여부 파악해야하는데
 				console.log("here");
 				
 				alert("저장완료되었습니다.");
