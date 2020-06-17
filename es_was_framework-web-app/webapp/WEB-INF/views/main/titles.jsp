@@ -37,7 +37,7 @@
   	margin-top: 10px;
     margin-left: 30px;
     font-size: 25px;
-    font-family: 'Exo', sans-serif;
+    font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-weight: bold;
   }
   /* .menu_tree::before{
