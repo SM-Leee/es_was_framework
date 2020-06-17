@@ -22,14 +22,12 @@ public class GridController {
 	@ResponseBody
 	@RequestMapping(value="/getEmp", method=RequestMethod.POST)
 	public JSONObject getEmpInfoToGrid(HttpServletRequest request) {
-		System.out.println("hi");
 		return gridService.getEmpgetEmpInfoToGrid(request);
 	}
 
 	@ResponseBody
 	@RequestMapping(value="/save", method=RequestMethod.POST)
 	public void save(HttpServletRequest request) {
-		System.out.println("hello");
 		gridService.save(request);
 	}
 }

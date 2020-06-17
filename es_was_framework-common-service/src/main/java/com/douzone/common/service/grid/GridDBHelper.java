@@ -60,66 +60,57 @@ public class GridDBHelper {
 	}
 	
 	// search
-	public JSONObject exquteQuery(String procName, Object[] args) {
+	public JSONObject exquteQuery(String procName, Object[] args) throws SQLException {
 		JSONObject jsonObject = new JSONObject();
 		
-		try {
-			if(args.length == 0) return null;
-			
-			String sql = "{call " + procName + "(";
+		if(args.length == 0) return null;
+		
+		String sql = "{call " + procName + "(";
 
-			for(int i=0; i<args.length; i++) {
-				if(i == (args.length)-1) {
-					sql += "?)}";
-				} else{
-					sql += "?, ";
-				}
+		for(int i=0; i<args.length; i++) {
+			if(i == (args.length)-1) {
+				sql += "?)}";
+			} else{
+				sql += "?, ";
 			}
+		}
 
-			// 2. Execute a procedure create
-			cstmt = connection.prepareCall(sql);
-			
-			int index = 1;
-			for(int i=0; i<args.length; i++) {
-				cstmt.setString(index, args[i].toString());
-				index++;
-			}
-			
-			boolean isExistResult = cstmt.execute();
-			
-			int rsCount = 0;
-			while(isExistResult) {
-				ResultSet rs = cstmt.getResultSet();
-
-				JSONArray jsonArray = SetJSONArray(rs);
-				jsonObject.put(Integer.toString(rsCount), jsonArray);
-			
-				rs.close();
-			
-				isExistResult = cstmt.getMoreResults();
-				rsCount++;
-			}		
-		} catch(Exception ex) {
-			
+		// 2. Execute a procedure create
+		cstmt = connection.prepareCall(sql);
+		
+		int index = 1;
+		for(int i=0; i<args.length; i++) {
+			cstmt.setString(index, args[i].toString());
+			index++;
 		}
 		
+		boolean isExistResult = cstmt.execute();
+		
+		int rsCount = 0;
+		while(isExistResult) {
+			ResultSet rs = cstmt.getResultSet();
+
+			JSONArray jsonArray = SetJSONArray(rs);
+			jsonObject.put(Integer.toString(rsCount), jsonArray);
+		
+			rs.close();
+		
+			isExistResult = cstmt.getMoreResults();
+			rsCount++;
+		}	
 		return jsonObject;
 	}
 
-	private JSONArray SetJSONArray(ResultSet resultset) {
+	private JSONArray SetJSONArray(ResultSet resultset) throws SQLException {
 		JSONArray jsonArray = new JSONArray();
-		
-		try {
-			while (resultset.next()) {
-			    int columns = resultset.getMetaData().getColumnCount();
-			    JSONObject obj = new JSONObject();
-			    for (int i = 0; i < columns; i++) {
-			    	obj.put(resultset.getMetaData().getColumnLabel(i + 1).toLowerCase(), resultset.getObject(i + 1));
-			    }
-			    jsonArray.add(obj);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+	
+		while (resultset.next()) {
+		    int columns = resultset.getMetaData().getColumnCount();
+		    JSONObject obj = new JSONObject();
+		    for (int i = 0; i < columns; i++) {
+		    	obj.put(resultset.getMetaData().getColumnLabel(i + 1).toLowerCase(), resultset.getObject(i + 1));
+		    }
+		    jsonArray.add(obj);
 		}
 		return jsonArray;
 	}
@@ -145,35 +136,35 @@ public class GridDBHelper {
 	private int excute() throws SQLException {
 		int result = 0;
 
-			if(object == null || object.size() == 0) {
-				System.err.println("로직 실행할 데이터가 없습니다.");
-				return -1;
-			}
-			
-			String sql = "{call " + procName + "(";
-			int paramSize = object.size();		
-			for(int i=0; i<object.size(); i++) {
-				if(i == paramSize-1) {
-					sql += "?)}";
-				} else{
-					sql += "?, ";
-				}
-			}
-			
-			// 2. Execute a procedure create
-			CallableStatement cstmt = connection.prepareCall(sql); 
-
-			Iterator<String> iter = object.keySet().iterator();
-			int index = 1;
-			while(iter.hasNext()) {
-				String param = iter.next();
-				String value = object.get(param).toString();
-				
-				cstmt.setString(index, value);
-				index++;
-			}
-			result = cstmt.executeUpdate();	
+		if(object == null || object.size() == 0) {
+			System.err.println("로직 실행할 데이터가 없습니다.");
+			return -1;
+		}
 		
+		String sql = "{call " + procName + "(";
+		int paramSize = object.size();		
+		for(int i=0; i<object.size(); i++) {
+			if(i == paramSize-1) {
+				sql += "?)}";
+			} else{
+				sql += "?, ";
+			}
+		}
+		
+		// 2. Execute a procedure create
+		CallableStatement cstmt = connection.prepareCall(sql); 
+		
+		Iterator<String> iter = object.keySet().iterator();
+		int index = 1;
+		while(iter.hasNext()) {
+			String param = iter.next();
+			String value = object.get(param).toString();
+			
+			cstmt.setString(index, value);
+			index++;
+		}
+		result = cstmt.executeUpdate();	
+	
 		object = null;
 		return result;
 	}
