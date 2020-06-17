@@ -11,6 +11,9 @@
   .menu_tree_main{
   	height : 40px;
   	width: 100%;
+  	margin-left: 20px;
+    margin-top: 10px;
+    padding-top: 2px;
   }
   .menu_tree{
   	display : inline-block;
@@ -23,9 +26,7 @@
  	color: gray;
     width: 20px;
     height: 20px;
-    margin-left: 20px;
-    margin-top: 10px;
-    padding-top: 2px;
+    
  
   }
   .menu_title_main {
@@ -44,7 +45,7 @@
   } */
 </style>
 <div class="menu_tree_main">
-	<i class="menu_tree_bookmark" data-feather = 'bookmark'></i>
+	<!-- <i class="menu_tree_bookmark" data-feather = 'bookmark'></i> -->
 </div>
 <div class="menu_title_main">
 	<span></span>
@@ -56,7 +57,8 @@
  		var selector2 = parent.document.querySelector('.menu-link');
  		var selector2_title = $(selector2).attr('title');
  		var main_title = $(selector).attr('title');
- 		
+ 		console.log(selector2);
+ 		console.log(selector);
  		var selector4 = "<img src='resources/assets/css/main/images/blt-folder-closed.png' alt='MenuTree'/><div class='menu_tree'>"+$(selector).attr('title')+"</div>";
  		while(true){
  			selector = $(selector).parent().parent().prev();
