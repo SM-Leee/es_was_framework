@@ -27,7 +27,7 @@ public class GridController {
 
 	@ResponseBody
 	@RequestMapping(value="/save", method=RequestMethod.POST)
-	public void save(HttpServletRequest request) {
-		gridService.save(request);
+	public int save(HttpServletRequest request) {
+		return gridService.save(request);
 	}
 }

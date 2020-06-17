@@ -218,8 +218,11 @@ onload = function() {
 			},
 			success: function(data) {
 				console.log(data);
-				console.log("here");
 				
+				if(data == -1) {
+					alert("저장 중 오류가 발생하였습니다.");
+					return;
+				}
 				alert("저장완료되었습니다.");
 				// 로직끝났으면 초기화
 				for(var i=0; i<grid.itemsSource.length; i++) {
@@ -255,17 +258,19 @@ onload = function() {
 
 </script>
 <body>
-		<div class="btnContainer">
-			<input type="button" class="button" id="search" value="조회">
-			<input type="button" class="button" id="add" value="추가">
-			<input type="button" class="button" id="delete" value="삭제">
-			<input type="button" class="button" id="save" value="저장">
-			<input type="button" class="button" id="show" value="변경데이터확인">
-		</div>
-		
-		<div class="container">
-			<div id="grid" class="gridBox custom-flex-grid"></div>
-		</div>
+	<c:import url="/WEB-INF/views/main/titles.jsp"/> <!-- Header Title -->
+	
+	<div class="btnContainer">
+		<input type="button" class="button" id="search" value="조회">
+		<input type="button" class="button" id="add" value="추가">
+		<input type="button" class="button" id="delete" value="삭제">
+		<input type="button" class="button" id="save" value="저장">
+		<input type="button" class="button" id="show" value="변경데이터확인">
+	</div>
+	
+	<div class="container">
+		<div id="grid" class="gridBox custom-flex-grid"></div>
+	</div>
 </body>
 </html>
 
