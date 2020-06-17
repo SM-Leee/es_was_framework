@@ -9,11 +9,15 @@
     	background-color: white;
   }
   .menu_tree_main{
-  	height : 40px;
-  	width: 100%;
-  	margin-left: 20px;
-    margin-top: 10px;
-    padding-top: 2px;
+  	height : 25px;
+  	width: calc(100% - 20px);
+  	/* margin-left: 20px;
+    margin-top: 10px; */
+    padding-left : 20px;
+    padding-top: 10px;
+    padding-bottom : 5px;
+    background-color : #C0E0FF;
+    
   }
   .menu_tree{
   	display : inline-block;
