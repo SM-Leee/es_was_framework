@@ -219,6 +219,7 @@ svg[Attributes Style] {
     border-color: rgba(0, 0, 0, .4);
     border-width: 1px;
     z-index : 500;
+    overflow-x: hidden;
 }
 
 .submenu-title {
@@ -911,4 +912,32 @@ ul.tabs li.current:before {
     font-family: 'Exo', sans-serif;
     font-size: 18px;
     font-weight: bold;
+}
+.adminx-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.adminx-sidebar::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.adminx-sidebar::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: gray;
+}
+.adminx-sidebar::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
+.submenu::-webkit-scrollbar {
+  width: 6px;
+}
+.submenu::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.submenu::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: gray;
+}
+.submenu::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
 }
