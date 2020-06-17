@@ -48,15 +48,20 @@ public class GridDBHelper {
 	}
 	
 	public void setAutoCommit(boolean defaultAutocommit) {
-		dataSource.setDefaultAutoCommit(defaultAutocommit);
+		try {
+			connection.setAutoCommit(defaultAutocommit);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void commit() throws SQLException {
-		dataSource.getConnection().commit();
+		connection.commit();
 	}
 	
 	public void rollback() throws SQLException {
-		dataSource.getConnection().rollback();
+		connection.rollback();
 	}
 	
 	// search
